@@ -12,10 +12,38 @@ use Exception;
 
 class BookController extends Controller
 {
-    //01 View Books (Admin)
+    //01 View Books (Admin and User)
     public function view_books()
     {
         $books=Book::all();
+
+        for($i=0; $i<count($books); $i++)
+        {
+            if($books[$i]->rate_value>0.8)
+            {
+                $books[$i]->rate_value=1.0;
+            }
+            else if($books[$i]->rate_value>0.6)
+            {
+                $books[$i]->rate_value=0.8;
+            }
+            else if($books[$i]->rate_value>0.4)
+            {
+                $books[$i]->rate_value=0.6;
+            }
+            else if($books[$i]->rate_value>0.2)
+            {
+                $books[$i]->rate_value=0.4;
+            }
+            else if($books[$i]->rate_value>0.0)
+            {
+                $books[$i]->rate_value=0.2;
+            }
+            else
+            {
+                $books[$i]->rate_value=0.0;
+            }
+        }
 
         return response()->json([
             'status'=>200,
@@ -82,13 +110,38 @@ class BookController extends Controller
         }
     }
 
-    //03 View Book (Admin)
+    //03 View Book (Admin and User)
     public function view_book($id)
     {
         $book=Book::find($id);
 
         if($book)
         {
+            if($book->rate_value>0.8)
+            {
+                $book->rate_value=1.0;
+            }
+            else if($book->rate_value>0.6)
+            {
+                $book->rate_value=0.8;
+            }
+            else if($book->rate_value>0.4)
+            {
+                $book->rate_value=0.6;
+            }
+            else if($book->rate_value>0.2)
+            {
+                $book->rate_value=0.4;
+            }
+            else if($book->rate_value>0.0)
+            {
+                $book->rate_value=0.2;
+            }
+            else
+            {
+                $book->rate_value=0.0;
+            }
+
             return response()->json([
                 'status'=>200,
                 'book'=>$book,
@@ -216,7 +269,7 @@ class BookController extends Controller
         }
     }
 
-    //06 Fetch File (Book) (From ./public/Uploads/Books)
+    //06 Fetch Pdf Book (Admin and User)
     public function pdf_book($name)
     {
         $file = null;
@@ -232,5 +285,59 @@ class BookController extends Controller
         $response = Response::make($file,200);
         $response->header('Content-Type', 'application/pdf');
         return $response;
+    }
+
+    //07 Rate Book (User)
+    public function rate_book(Request $request,$id)
+    {
+        $validator=Validator::make($request->all(),[
+            'rate'=>['required','numeric'],
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'validation_errors'=>$validator->messages(),
+            ]);
+        }
+        else
+        {
+            if(!(
+                $request->input('rate') == 0.2 ||
+                $request->input('rate') == 0.4 ||
+                $request->input('rate') == 0.6 ||
+                $request->input('rate') == 0.8 ||
+                $request->input('rate') == 1.0
+            ))
+            {
+                return response()->json([
+                    'status'=>400,
+                    'message'=>'Rate Value Accept Only This Values [0.2,0.4,0.6,0.8,1.0]',
+                ]);
+            }
+            else
+            {
+                $book=Book::find($id);
+                if($book)
+                {
+                    $rate = (($book->rate_value*$book->number_voited)+$request->input('rate'))/($book->number_voited+1);
+                    $book->rate_value=$rate;
+                    $book->number_voited+=1;
+
+                    $book->save();
+                    return response()->json([
+                        'status'=>200,
+                        'message'=>'Book Rated Successfully',
+                    ]);
+                }
+                else
+                {
+                    return response()->json([
+                        'status'=>404,
+                        'message'=>'No Book Id Found',
+                    ]);
+                }
+            }
+        }
     }
 }

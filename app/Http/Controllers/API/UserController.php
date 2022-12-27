@@ -60,7 +60,7 @@ class UserController extends Controller
         }
     }
 
-    //03 View User (Admin)
+    //03 View User (Admin and User)
     public function view_user($id)
     {
         $user=User::find($id);
