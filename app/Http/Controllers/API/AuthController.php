@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Admin;
@@ -23,7 +24,6 @@ class AuthController extends Controller
             'last_name'=>['required','string','max:50'],
             'address'=>['required','string','max:100'],
             'age'=>['required','integer','max:100'],
-            'num_borrow'=>['required','integer'],
             'email'=>['required','string','max:100','email','unique:users','unique:admins'],
             'password'=>['required','string','min:8'],
         ]);
@@ -41,7 +41,6 @@ class AuthController extends Controller
                 'last_name'=>$request->last_name,
                 'address'=>$request->address,
                 'age'=>$request->age,
-                'num_borrow'=>$request->num_borrow,
                 'email'=>$request->email,
                 'password'=>Hash::make($request->password)
             ]);
@@ -56,7 +55,7 @@ class AuthController extends Controller
                 'message'=>'Registered Successfully',
             ]);
         }
-    }//Ok
+    }
 
     //02 Login (All)
     public function login(Request $request)
@@ -111,7 +110,7 @@ class AuthController extends Controller
                 ]);
             }
         }
-    }//Ok
+    }
 
     //03 Forgot Password (All)
     public function forgot (Request $request)
@@ -171,7 +170,7 @@ class AuthController extends Controller
                 ]);
             }
         }
-    }//Ok
+    }
 
     //04 Reset Password (All)
     public function reset (Request $request)
@@ -229,7 +228,7 @@ class AuthController extends Controller
                 'message'=>'Password Changed Successfully'
             ]);
         }
-    }//Ok
+    }
 
     //05 Logout (All)
     public function logout()
@@ -239,5 +238,5 @@ class AuthController extends Controller
             'status'=>200,
             'message'=>'Logged Out Successfully'
         ]);
-    }//Ok
+    }
 }

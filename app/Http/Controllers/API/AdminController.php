@@ -71,7 +71,7 @@ class AdminController extends Controller
         {
             return response()->json([
                 'status'=>404,
-                'message'=>'No Admin Id Found',
+                'message'=>'Admin Is Not Found',
             ]);
         }
     }
@@ -109,24 +109,33 @@ class AdminController extends Controller
             $admin=Admin::find($id);
             if($admin)
             {
-
                 $admin->first_name=$request->input('first_name');
                 $admin->last_name=$request->input('last_name');
                 $admin->email=$request->input('email');
                 $admin->password = $request->input('password')==="useOldPassword" ? $admin->password : Hash::make($request->input('password'));
-                $admin->save();
 
-                return response()->json([
-                    'status'=>200,
-                    'admin'=>$admin,
-                    'message'=>'Admin Updated Successfully',
-                ]);
+                if(auth()->user()->id==$id)
+                {
+                    $admin->save();
+                    return response()->json([
+                        'status'=>200,
+                        'message'=>'Your Account Updated Successfully',
+                    ]);
+                }
+                else
+                {
+                    $admin->save();
+                    return response()->json([
+                        'status'=>200,
+                        'message'=>'Admin Updated Successfully',
+                    ]);
+                }
             }
             else
             {
                 return response()->json([
                     'status'=>404,
-                    'message'=>'No Admin Id Found',
+                    'message'=>'Admin Is Not Found',
                 ]);
             }
 

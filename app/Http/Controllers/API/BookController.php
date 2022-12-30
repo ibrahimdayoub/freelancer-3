@@ -264,6 +264,7 @@ class BookController extends Controller
         else
         {
             return response()->json([
+                'status'=>404,
                 'message'=>'Book Is Not Found',
             ]);
         }
@@ -339,5 +340,16 @@ class BookController extends Controller
                 }
             }
         }
+    }
+
+    //08 Search Book (User)
+    public function search_book($key)
+    {
+        $books= Book::where('title','LIKE','%'.$key.'%')->orWhere('author','LIKE','%'.$key.'%')->get();
+        return response()->json([
+            'status'=>200,
+            'book'=>$books,
+            'message'=>'Books Fetched Successfully',
+        ]);
     }
 }
