@@ -9,8 +9,6 @@ use App\Http\Controllers\API\SuggestionController;
 use App\Http\Controllers\API\NewsController;
 use Illuminate\Support\Facades\Route;
 
-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
-
 //Register User
 Route::post('register',[AuthController::class,'register']); #1
 //Login
