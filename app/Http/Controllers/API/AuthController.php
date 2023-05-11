@@ -37,13 +37,22 @@ class AuthController extends Controller
         else
         {
             $user=User::create([
-                'first_name'=>$request->first_name,
-                'last_name'=>$request->last_name,
-                'address'=>$request->address,
-                'age'=>$request->age,
-                'email'=>$request->email,
-                'password'=>Hash::make($request->password)
+                'first_name'=>$request->input(first_name),
+                'last_name'=>$request->input(last_name),
+                'address'=>$request->input(address),
+                'age'=>$request->input(age),
+                'email'=>$request->input(email),
+                'password'=>Hash::make($request->input(password))
             ]);
+
+            // $user=new User;
+            // $user->first_name=$request->input('first_name');
+            // $user->last_name=$request->input('last_name');
+            // $user->address=$request->input('address');
+            // $user->age=$request->input('age');
+            // $user->email=$request->input('email');
+            // $user->password=Hash::make($request->input('password'));
+            // $user->save();
 
             $token=$user->createToken($user->email.'User_Token',['server:user'])->plainTextToken;
 

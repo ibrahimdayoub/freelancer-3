@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class NewsController extends Controller
 {
-    //01 View News (Admin)
+    //01 View News (Admin and User)
     public function view_all_news()
     {
         $news=News::all();

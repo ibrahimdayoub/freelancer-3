@@ -35,6 +35,9 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('view_book/{id}',[BookController::class,'view_book']); #8
     Route::get('pdf_book/{name}',[BookController::class,'pdf_book']); #9
 
+    //News
+    Route::get('view_all_news',[NewsController::class,'view_all_news']); #25
+
     //Suggestions
     Route::get('show_suggestions',[SuggestionController::class,'show_suggestions']); #10
     Route::delete('delete_suggestion/{id}',[SuggestionController::class,'delete_suggestion']); #11
@@ -66,7 +69,6 @@ Route::middleware(['auth:sanctum','isAdmin'])->group(function(){
     Route::post('answer_suggestion/{id}',[SuggestionController::class,'answer_suggestion']); #24
 
     //News
-    Route::get('view_all_news',[NewsController::class,'view_all_news']); #25
     Route::post('add_one_news',[NewsController::class,'add_one_news']); #26
     Route::get('view_one_news/{id}',[NewsController::class,'view_one_news']); #27
     Route::put('update_one_news/{id}',[NewsController::class,'update_one_news']); #28
