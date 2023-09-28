@@ -24,24 +24,20 @@ Route::post('reset',[AuthController::class,'reset']); #4
 Route::middleware(['auth:sanctum'])->group(function(){
     //Logout
     Route::post('logout',[AuthController::class,'logout']); #5
-
     //Users
     Route::get('view_user/{id}',[UserController::class,'view_user']); #6
-
     //Books
     Route::get('view_books',[BookController::class,'view_books']); #7
     Route::get('view_book/{id}',[BookController::class,'view_book']); #8
     Route::get('pdf_book/{name}',[BookController::class,'pdf_book']); #9
-
     //News
     Route::get('view_all_news',[NewsController::class,'view_all_news']); #25
-
     //Suggestions
     Route::get('show_suggestions',[SuggestionController::class,'show_suggestions']); #10
     Route::delete('delete_suggestion/{id}',[SuggestionController::class,'delete_suggestion']); #11
 });
 
-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
 //Middleware if role admin
 Route::middleware(['auth:sanctum','isAdmin'])->group(function(){

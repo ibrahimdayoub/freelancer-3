@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 
 class BorrowerController extends Controller
 {
-    //01 Borrow Book (User)
+
+    //01 Borrowing Book (User)
     public function borrow_book($id)
     {
         $borrowerBook= Borrower::where('user_id',auth()->user()->id)->Where('book_id',$id)->first();
@@ -18,7 +19,7 @@ class BorrowerController extends Controller
         {
             return response()->json([
                 'status'=>400,
-                'message'=>'You Can Not Borrowes This Book Twice',
+                'message'=>'You Can Not Borrow This Book Twice',
             ]);
         }
 
